@@ -1,13 +1,21 @@
 import './App.css';
 import React, { useState } from 'react';
 
+import {ApolloProvider} from '@apollo/client'
+import { ApolloClient,InMemoryCache } from '@apollo/client';
+
 import Roles from './components/roles'
 import Teams from './components/teams'
 import People from './components/people'
 
+const client = new ApolloClient({
+  uri: 'http://localhost:4000',
+  cache: new InMemoryCache()
+})
+
 function App() {
 
-  const [menu, setMenu] = useState('Roles')
+  const [menu, setMenu] = useState('Teams')
 
   let mainComp = {
     Roles: (<Roles />),
@@ -28,6 +36,7 @@ function App() {
 
   return (
     <div className="App">
+      <ApolloProvider client={client}>
       <header className="App-header">
         <h1>Company Management</h1>
         <nav>
@@ -39,6 +48,7 @@ function App() {
       <main>
         {mainComp[menu]}
       </main>
+      </ApolloProvider>
     </div>
   );
 }
