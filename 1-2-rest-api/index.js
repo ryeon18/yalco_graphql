@@ -8,7 +8,7 @@ const softwareRouter = require('./routes/software.js')
 const equipmentRouter = require('./routes/equipment.js')
 const supplyRouter = require('./routes/supply.js')
 
-const port = 3000
+const port = 3002
 
 app.use(express.json())
 app.use(express.urlencoded())

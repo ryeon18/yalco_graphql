@@ -2,7 +2,7 @@
   "name": "2-2-server-query",
   "version": "1.0.0",
   "description": "",
-  "main": "database.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
@@ -10,7 +10,8 @@
   "author": "yalco",
   "license": "ISC",
   "dependencies": {
-    "apollo-server": "^2.19.1",
-    "convert-csv-to-json": "^1.0.0"
+    "apollo-server": "^2.26.1",
+    "convert-csv-to-json": "^1.0.0",
+    "graphql": "^15.8.0"
   }
 }
