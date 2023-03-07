@@ -3,13 +3,16 @@ const { ApolloServer } = require('apollo-server')
 const queries = require('./typedefs-resolvers/_queries')
 const mutations = require('./typedefs-resolvers/_mutations')
 const equipments = require('./typedefs-resolvers/equipments')
-const supplies = require('./typedefs-resolvers/supplies')
+const supplies = require('./typedefs-resolvers/supplies') 
+const enums = require('./typedefs-resolvers/_enums') 
+
 
 const typeDefs = [
     queries,
     mutations,
     equipments.typeDefs,
-    supplies.typeDefs
+    supplies.typeDefs,
+    enums
 ]
 
 const resolvers = [
