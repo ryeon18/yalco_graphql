@@ -7,12 +7,12 @@
     "test": "test",
     "start": "nodemon index.js"
   },
-  "author": "yalco",
+  "author": "sy.Park",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.19.0",
     "convert-csv-to-json": "^1.0.0",
-    "graphql": "^15.4.0"
-    
+    "graphql": "^15.4.0",
+    "lodash": "^4.17.21"
   }
 }

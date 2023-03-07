@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js"
   },
-  "author": "yalco",
+  "author": "sy.Park",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^2.26.1",
