@@ -1,7 +1,7 @@
 import './components.css';
 import { useState } from 'react';
 import { useQuery,useMutation,gql } from '@apollo/client';
-
+import { AsideItemsContent } from '../commonComp/aside';
 
 const GET_TEAMS = gql`
     query GetTeams {
@@ -71,7 +71,7 @@ const POST_TEAM = gql`
 
 let refetchTeams;
 
-function Teams() {
+function Teams({mainComp}) {
 
     const [contentId, setContentId] = useState(0)
     const [inputs, setInputs] = useState({
@@ -136,44 +136,15 @@ function Teams() {
         setContentId(0)
     }
 
-
     function AsideItems () {
-        const roleIcons = {
-        developer: '💻',
-        designer: '🎨',
-        planner: '📝'
-        }
-
         const { loading, error, data, refetch } = useQuery(GET_TEAMS);
 
         refetchTeams = refetch
 
-        if (loading) return <p className="loading">Loading...</p>
-        if (error) return <p className="error">Error :(</p>
 
-        return (
-        <ul>
-            {data.teams.map(({id, manager, members}) => {
-            return (
-                <li key={id}>
-                <span className="teamItemTitle" onClick={() => {setContentId(id)}}>
-                    Team {id} : {manager}'s
-                </span>
-                <ul className="teamMembers">
-                    {members.map(({id, first_name, last_name, role}) => {
-                    return (
-                        <li key={id}>
-                        {roleIcons[role]} {first_name} {last_name}
-                        </li>
-                    )
-                    })}
-                </ul>
-                </li>
-            )
-            })}
-        </ul>
-        )
+        return (<AsideItemsContent mainComp={mainComp} data={data} loading={loading} error={error} setContentId={setContentId} />       )
     }
+
 
     function MainContents () {
         const { loading, error } = useQuery(GET_TEAM, {

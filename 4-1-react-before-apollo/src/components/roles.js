@@ -1,7 +1,7 @@
 import './components.css';
 import { useState } from 'react';
 import { useQuery,gql } from '@apollo/client';
-
+import { AsideItemsContent } from '../commonComp/aside';
 
 const GET_ROLES = gql`
   query GetRoles {
@@ -32,35 +32,16 @@ const GET_ROLE = gql`
 `;
 
 
-function Roles() {
+function Roles({mainComp}) {
 
     const [contentId, setContentId] = useState('');
 
     function AsideItems () {
-        const roleIcons = {
-            developer: '💻',
-            designer: '🎨',
-            planner: '📝'
-        }
-        const { loading, error, data } = useQuery(GET_ROLES);
+      const { loading, error, data } = useQuery(GET_ROLES);
 
-        if (loading) return <p className="loading">Loading...</p>
-        if (error) return <p className="error">Error :(</p>
+      return (<AsideItemsContent mainComp={mainComp} data={data} loading={loading} error={error} setContentId={setContentId} contentId={contentId} />       )
 
-        return (
-            <ul>
-                {data.roles.map(({id}) => {
-                return (
-                    <li key={id} className={'roleItem ' +  (contentId === 'id' ? 'on' : '')}
-                    onClick={() => {setContentId(id)}}>
-                    <span>{contentId === id ? '🔲' : '⬛'}</span>
-                    {roleIcons[id]} {id}
-                    </li>
-                )
-                })}
-            </ul>
-        );
-    }
+  }
 
     function MainContents () {
 
@@ -78,19 +59,19 @@ function Roles() {
             <div className="requirement"><span>{data.role.requirement}</span> required</div>
             <h3>Members</h3>
             <ul>
-              {data.role.members.map((member) => {
-                return (<li>{member.last_name}</li>)
+              {data.role.members.map(({last_name},idx) => {
+                return (<li key={idx}>{last_name}</li>)
               })}
             </ul>
             <h3>Equipments</h3>
             <ul>
-              {data.role.equipments.map((equipment) => {
-                return (<li>{equipment.id}</li>)
+              {data.role.equipments.map(({id},idx) => {
+                return (<li key={idx}>{id}</li>)
               })}
             </ul>
             <h3>Softwares</h3>
-              {data.role.softwares.map((software) => {
-                return (<li>{software.id}</li>)
+              {data.role.softwares.map(({id},idx) => {
+                return (<li key={idx}>{id}</li>)
               })}
             <ul>
             </ul>
@@ -101,7 +82,7 @@ function Roles() {
     return (
         <div id="roles" className="component">
             <aside>
-                {AsideItems()}
+              {AsideItems()}
             </aside>
             <section className="contents">
                 {MainContents()}

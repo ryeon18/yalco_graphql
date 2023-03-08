@@ -1,6 +1,7 @@
 import './components.css';
 import { useState } from 'react';
 import { useQuery, useMutation, gql } from '@apollo/client';
+import { AsideItemsContent } from '../commonComp/aside';
 
 const Names = gql`
   fragment names on People {
@@ -111,7 +112,7 @@ const INCREASE_EQUIPMENT = gql`
 let refetchPeople
 let refetchPerson
 
-function People() {
+function People({mainComp}) {
   const [contentId, setContentId] = useState(0)
   
   const sexes = ['male', 'female']
@@ -130,11 +131,31 @@ function People() {
   })
 
   function execPostPerson () {
-    postPerson({
-      variables: { input: inputs }})
+    if(inputs.first_name.length < 1) {
+      alert('Fill in First name')
+      return 
+    } else if (inputs.last_name.length < 1) {
+      alert('Fill in Last name')
+      return 
+    } else if (inputs.serve_years < 1) {
+      alert('Fill in Server Years')
+      return
+    } else if (inputs.team < 1) {
+      alert('Fill in the Team')
+      return
+    } else if (inputs.from.length < 1) {
+      alert('Fill in From')
+      return 
+    }
+    else {
+      postPerson({
+        variables: { input: inputs }})
+    }
   }
+
   const [postPerson] = useMutation(
     POST_PERSON, { onCompleted: postPersonCompleted })
+  
   function postPersonCompleted (data) {
     console.log(data.postPerson)
     alert(`${data.postPerson.id} 항목이 생성되었습니다.`)
@@ -149,8 +170,10 @@ function People() {
         input: inputs }
       })
   }
+
   const [editPerson] = useMutation(
     EDIT_PERSON, { onCompleted: editPersonCompleted }) 
+  
   function editPersonCompleted (data) {
     console.log(data.editPerson)
     alert(`${data.editPerson.id} 항목이 수정되었습니다.`)
@@ -180,31 +203,8 @@ function People() {
 
     refetchPeople = refetch
 
-    function peopleFaces(sex, id) {
-      const bySex = {
-        male: ['🧑🏿', '👨🏻', '👦🏼', '‍🧓🏽', '🧔🏾'],
-        female: ['👩🏻', '👧🏼', '👩🏽‍🦰', '👩🏾‍🦱', '👱🏿‍♀️']
-      }
-      return bySex[sex][id % bySex[sex].length]
-    }
+    return (<AsideItemsContent mainComp={mainComp} data={data} loading={loading} error={error} setContentId={setContentId} />       )
 
-    if (loading) return <p className="loading">Loading...</p>
-    if (error) return <p className="error">Error :(</p>
-
-    return (
-      <ul>
-        {data.people.map(
-          ({id, sex, first_name, last_name, blood_type}) => {
-            return (
-              <li key={id} onClick={() => {setContentId(id)}}>
-                <span className="face">{peopleFaces(sex, id)}</span>
-                <span className="bloodType">{blood_type}</span>
-                <span className="peopleName">{first_name} {last_name}</span>
-              </li>
-            )
-        })}
-      </ul>
-    );
   }
 
   function MainContents () {
