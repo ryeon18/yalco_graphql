@@ -15,7 +15,7 @@ const client = new ApolloClient({
 
 function App() {
 
-  const [menu, setMenu] = useState('Teams')
+  const [menu, setMenu] = useState('Roles')
 
   let mainComp = {
     Roles: (<Roles />),
